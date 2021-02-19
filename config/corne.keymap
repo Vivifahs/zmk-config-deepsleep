@@ -8,6 +8,7 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
+#include <dt-bindings/zmk/outputs.h>
 
 #define DEFAULT 0
 #define TM1     1
@@ -111,12 +112,12 @@
 // -----------------------------------------------------------------------------------------
 // |  QWE | TM1 | TM2 | TM3 | TM4 | CDM |   |     |     |     |     |     |      |
 // | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-// | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
+// | USBS |     |     |     |     |     |   |     |     |     |     |     |      |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         bindings = <
    &to DEFAULT &to TM1            &to TM2          &to TM3          &to TM4     &to COLDM       &trans          &trans          &trans          &trans          &trans  &trans
    &bt BT_CLR &bt BT_SEL 0      &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4    &kp LEFT        &kp DOWN        &kp UP        &kp RIGHT        &trans  &trans
-   &kp LSHFT   &trans            &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans  &kp LC(LA(DEL))
+   &out OUT_TOG   &trans            &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans  &kp LC(LA(DEL))
                                                 &kp LGUI        &trans          &kp SPACE         &kp RET         &trans          &kp RALT
                         >;
                 };
