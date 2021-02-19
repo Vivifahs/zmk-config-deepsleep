@@ -106,8 +106,6 @@
                    &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE &kp RALT
                         >;
                 };
-        };
-
 
                 settings {
 // -----------------------------------------------------------------------------------------
@@ -149,6 +147,6 @@
                                       &kp LGUI &trans &kp SPACE   &kp RET &trans &kp RALT
                         >;
                 };
-
+        };
 };
 
