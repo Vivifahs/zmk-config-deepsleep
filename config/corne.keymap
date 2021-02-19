@@ -9,6 +9,15 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
 
+#define DEFAULT 0
+#define SETTING 1
+#define LOWER   2
+#define RAISE   3
+#define TM1     4
+#define TM2     5
+#define TM3     6
+#define TM4     7
+#define COLDM   8
 
 / {
         keymap {
@@ -18,26 +27,40 @@
 // -----------------------------------------------------------------------------------------
 // |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
 // | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | SHFT |
+// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | \ |
 //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
                         bindings = <
-   &kp TAB  &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I    &kp O   &kp P    &kp BKSP
-   &kp LCTL &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K    &kp L   &kp SCLN &kp QUOT
-   &kp LSFT &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp CMMA &kp DOT &kp FSLH &kp RSFT
-                   &kp LGUI &mo 1 &kp SPC   &kp RET &mo 2 &kp RALT
+   &kp TAB  &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I    &kp O   &kp P    &kp BSPC
+   &kp LCTRL &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K    &kp L   &kp SEMI &kp SQT
+   &kp LSHFT &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &lt SETTING BSLH
+                   &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE &kp RALT
+                        >;
+                };
+
+                settings {
+// -----------------------------------------------------------------------------------------
+// |  QWE | TM1 | TM2 | TM3 | TM4 | CDM |   |     |     |     |     |     |      |
+// | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
+// | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
+//                    | GUI |     | SPC |   | ENT |     | ALT |
+                        bindings = <
+   &to DEFAULT &to TM1            &to TM2          &to TM3          &to TM4     &to COLDM       &trans          &trans          &trans          &trans          &trans  &trans
+   &bt BT_CLR &bt BT_SEL 0      &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4    &kp LEFT        &kp DOWN        &kp UP        &kp RIGHT        &trans  &trans
+   &kp LSHFT   &trans            &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans  &kp LC(LA(DEL))
+                                                &kp LGUI        &trans          &kp SPACE         &kp RET         &trans          &kp RALT
                         >;
                 };
                 lower_layer {
 // -----------------------------------------------------------------------------------------
 // |  ESC |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BKSP |
-// | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
+// | BTCLR|     |     |     |     |     |   | LFT | DWN |  UP | RGT |     |      |
 // | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         bindings = <
-   &kp ESC    &kp N1            &kp N2          &kp N3          &kp N4          &kp N5          &kp N6          &kp N7          &kp N8          &kp N9          &kp N0  &kp BKSP
-   &bt BT_CLR &bt BT_SEL 0      &bt BT_SEL 1    &bt BT_SEL 2    &bt BT_SEL 3    &bt BT_SEL 4    &kp LARW        &kp DARW        &kp UARW        &kp RARW        &trans  &trans
-   &kp LSFT   &trans            &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans  &kp LC(LA(DEL))
-                                                &kp LGUI        &trans          &kp SPC         &kp RET         &trans          &kp RALT
+   &kp ESC    &kp N1            &kp N2          &kp N3          &kp N4          &kp N5          &kp N6          &kp N7          &kp N8          &kp N9          &kp N0  &kp BSPC
+   &trans      &trans            &trans          &trans          &trans          &trans         &kp LEFT        &kp DOWN        &kp UP        &kp RIGHT        &trans  &trans
+   &kp LSHFT   &trans            &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans          &trans  &kp LC(LA(DEL))
+                                                &kp LGUI        &trans          &kp SPACE         &kp RET         &trans          &kp RALT
                         >;
                 };
 
@@ -45,15 +68,84 @@
 // -----------------------------------------------------------------------------------------
 // |  ESC |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BKSP |
 // | CTRL |     |     |     |     |     |   |  -  |  =  |  {  |  }  | "|" |  `   |
-// | SHFT |     |     |     |     |     |   |  _  |  +  |  [  |  ]  |  \  |  ~   | // TODO: Fix this row when &mkp is committed
+// | SHFT |     |     |     |     |     |   |  _  |  +  |  [  |  ]  |  \  |  ~   | 
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         bindings = <
-   &kp  ESC &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS &kp STAR &kp LPAR &kp RPAR &kp BKSP
-   &kp LCTL &trans    &trans    &trans    &trans    &trans      &kp MINUS &kp EQL  &kp LBKT &kp RBKT &kp PIPE &kp GRAV
-   &kp LSFT &ext_power EP_OFF    &trans    &trans    &trans    &trans      &trans    &trans   &trans   &trans   &kp BSLH &kp TILD
-                                      &kp LGUI &trans &kp SPC   &kp RET &trans &kp RALT
+   &kp  ESC &kp EXCL  &kp AT  &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET  &kp AMPS &kp STAR &kp LPAR &kp RPAR &kp BSPC
+   &kp LCTRL &trans    &trans    &trans    &trans    &trans      &kp MINUS &kp EQUAL  &kp LBKT &kp RBKT &kp PIPE &kp GRAVE
+   &kp LSHFT &ext_power EP_OFF    &trans    &trans    &trans    &trans      &trans    &trans   &trans   &trans   &kp BSLH &kp TILDE
+                                      &kp LGUI &trans &kp SPACE   &kp RET &trans &kp RALT
+                        >;
+                };
+
+                tm1 {
+// -----------------------------------------------------------------------------------------
+// |  TAB |  Q  |  W  |  J  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
+// | CTRL |  A  |  S  |  D  |  F  |  G  |   |  M  |  N   |  E  |  L  |  ;  |  '   |
+// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  K  |  H   |  ,  |  .  |  /  | \ |
+//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
+                        bindings = <
+   &kp TAB  &kp Q &kp W &kp J &kp R &kp T   &kp Y &kp U  &kp I    &kp O   &kp P    &kp BSPC
+   &kp LCTRL &kp A &kp S &kp D &kp F &kp G   &kp M &kp N  &kp E    &kp L   &kp SEMI &kp SQT
+   &kp LSHFT &kp Z &kp X &kp C &kp V &kp B   &kp K &kp H  &kp COMMA &kp DOT &kp FSLH &lt SETTING BSLH
+                   &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE &kp RALT
+                        >;
+                };
+
+                tm2 {
+// -----------------------------------------------------------------------------------------
+// |  TAB |  Q  |  W  |  F  |  R  |  B  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
+// | CTRL |  A  |  S  |  D  |  T  |  G  |   |  M  |  N   |  E  |  L  |  ;  |  '   |
+// | SHFT |  Z  |  X  |  C  |  J  |  V  |   |  K  |  H   |  ,  |  .  |  /  | \ |
+//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
+                        bindings = <
+   &kp TAB  &kp Q &kp W &kp F &kp R &kp B   &kp Y &kp U  &kp I    &kp O   &kp P    &kp BSPC
+   &kp LCTRL &kp A &kp S &kp D &kp T &kp G   &kp M &kp N  &kp E    &kp L   &kp SEMI &kp SQT
+   &kp LSHFT &kp Z &kp X &kp C &kp J &kp V   &kp K &kp H  &kp COMMA &kp DOT &kp FSLH &lt SETTING BSLH
+                   &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE &kp RALT
+                        >;
+                };
+
+                tm3 {
+// -----------------------------------------------------------------------------------------
+// |  TAB |  Q  |  W  |  F  |  J  |  B  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
+// | CTRL |  A  |  R  |  S  |  T  |  G  |   |  M  |  N   |  E  |  L  |  ;  |  '   |
+// | SHFT |  Z  |  X  |  C  |  D  |  V  |   |  K  |  H   |  ,  |  .  |  /  | \ |
+//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
+                        bindings = <
+   &kp TAB  &kp Q &kp W &kp F &kp J &kp B   &kp Y &kp U  &kp I    &kp O   &kp P    &kp BSPC
+   &kp LCTRL &kp A &kp R &kp S &kp T &kp G   &kp M &kp N  &kp E    &kp L   &kp SEMI &kp SQT
+   &kp LSHFT &kp Z &kp X &kp C &kp D &kp V   &kp K &kp H  &kp COMMA &kp DOT &kp FSLH &lt SETTING BSLH
+                   &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE &kp RALT
+                        >;
+                };
+
+                tm4 {
+// -----------------------------------------------------------------------------------------
+// |  TAB |  Q  |  W  |  F  |  P  |  B  |   |  J  |  U   |  I  |  Y  |  ;  | BKSP |
+// | CTRL |  A  |  R  |  S  |  T  |  G  |   |  M  |  N   |  E  |  L  |  O  |  '   |
+// | SHFT |  Z  |  X  |  C  |  D  |  V  |   |  K  |  H   |  ,  |  .  |  /  | \ |
+//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
+                        bindings = <
+   &kp TAB  &kp Q &kp W &kp F &kp P &kp B   &kp J &kp U  &kp I    &kp Y   &kp SEMI &kp BSPC
+   &kp LCTRL &kp A &kp R &kp S &kp T &kp G   &kp M &kp N  &kp E    &kp L   &kp O &kp SQT
+   &kp LSHFT &kp Z &kp X &kp C &kp D &kp V   &kp K &kp H  &kp COMMA &kp DOT &kp FSLH &lt SETTING BSLH
+                   &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE &kp RALT
+                        >;
+                };
+
+                colemakdh {
+// -----------------------------------------------------------------------------------------
+// |  TAB |  Q  |  W  |  F  |  P  |  B  |   |  J  |  L   |  U  |  Y  |  ;  | BKSP |
+// | CTRL |  A  |  R  |  S  |  T  |  G  |   |  M  |  N   |  E  |  I  |  O  |  '   |
+// | SHFT |  Z  |  X  |  C  |  D  |  V  |   |  K  |  H   |  ,  |  .  |  /  | \ |
+//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
+                        bindings = <
+   &kp TAB  &kp Q &kp W &kp F &kp P &kp B   &kp J &kp L  &kp U    &kp Y   &kp SEMI &kp BSPC
+   &kp LCTRL &kp A &kp R &kp S &kp T &kp G   &kp M &kp N  &kp E    &kp I   &kp O &kp SQT
+   &kp LSHFT &kp Z &kp X &kp C &kp D &kp V   &kp K &kp H  &kp COMMA &kp DOT &kp FSLH &lt SETTING BSLH
+                   &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE &kp RALT
                         >;
                 };
         };
 };
-
